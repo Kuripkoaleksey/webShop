@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список редакторов</title>
+    <link rel="stylesheet" href="/path/to/your/css/styles.css">
+</head>
+<body>
+<h1>Список редакторов</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>Имя</th>
+        <th>Email</th>
+        <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Пример использования Thymeleaf для отображения списка редакторов -->
+    <tr th:each="redactor : ${redactors}">
+        <td th:text="${redactor.id}"></td>
+        <td th:text="${redactor.name}"></td>
+        <td th:text="${redactor.email}"></td>
+        <td>
+            <!-- Ссылки на редактирование и удаление редактора -->
+            <a th:href="@{/redactor/{id}/edit(id=${redactor.id})}">Редактировать</a> |
+            <a th:href="@{/redactor/{id}/confirm-delete(id=${redactor.id})}">Удалить</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<a th:href="@{/redactor/new}">Добавить нового редактора</a>
+</body>
+</html>
