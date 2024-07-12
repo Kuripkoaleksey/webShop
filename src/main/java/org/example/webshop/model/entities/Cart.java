@@ -1,4 +1,3 @@
-// Cart.java
 package org.example.webshop.model.entities;
 
 import jakarta.persistence.*;

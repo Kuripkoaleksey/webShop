@@ -24,7 +24,7 @@ public class CatalogService {
         return catalogRepository.findById(id);
     }
 
-    public Catalog createOrUpdateCatalog(Catalog catalog) {
+    public Catalog createCatalog(Catalog catalog) {
         return catalogRepository.save(catalog);
     }
 

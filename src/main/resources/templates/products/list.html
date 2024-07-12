@@ -18,16 +18,16 @@
         <td th:text="${product.name}"></td>
         <td th:text="${product.price}"></td>
         <td>
-            <a th:href="@{/products/{id}(id=${product.productId})}">View</a>
-            <a th:href="@{/products/{id}/edit(id=${product.productId})}">Edit</a>
-            <form th:action="@{/products/{id}/delete(id=${product.productId})}" method="post">
+            <a th:href="@{/images/products/{id}(id=${product.productId})}">View</a>
+            <a th:href="@{/images/products/{id}/edit(id=${product.productId})}">Edit</a>
+            <form th:action="@{/images/products/{id}/delete(id=${product.productId})}" method="post">
                 <button type="submit">Delete</button>
             </form>
         </td>
     </tr>
     </tbody>
 </table>
-<a th:href="@{/products/new}">Add New Product</a>
+<a th:href="@{/images/products/new}">Add New Product</a>
 </body>
 </html>
 >
