@@ -33,7 +33,7 @@
             margin-left: auto;
             margin-right: auto;
             text-align: left;
-            background-color: #fff;
+            background-color: #57616b;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -120,6 +120,10 @@
         <div>
             <label for="image">Изображение:</label>
             <input type="file" id="image" name="image"/>
+            <div>
+                <label>Текущее изображение:</label>
+                <img th:src="@{${product.imagePath}}" alt="Current image" style="max-width: 200px; margin-top: 10px;" />
+            </div>
         </div>
         <div>
             <label for="stock">Количество на складе:</label>

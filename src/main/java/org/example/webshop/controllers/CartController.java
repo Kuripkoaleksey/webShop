@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -75,9 +76,11 @@ public class CartController {
         Optional<User> user = userService.findById(userId);
         if (user.isPresent()) {
             List<CartItem> cartItems = cartService.getCartItems(userId);
+            BigDecimal totalAmount = cartService.calculateTotalAmount(cartItems);
             model.addAttribute("cartItems", cartItems);
+            model.addAttribute("totalAmount", totalAmount);
             model.addAttribute("userId", userId);
-            return "carts/cart"; // Обратите внимание, что это относительный путь, он должен совпадать с расположением вашего шаблона
+            return "carts/cart"; // Убедитесь, что этот путь соответствует расположению вашего шаблона
         }
         return "redirect:/login/form?error=true";
     }

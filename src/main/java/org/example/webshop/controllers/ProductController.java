@@ -102,17 +102,38 @@ public class ProductController {
     }
 
     @PostMapping("/{id}/edit")
-    public String updateProduct(@PathVariable long id, @ModelAttribute Product product, @RequestParam("catalogId") Long catalogId) {
-        product.setProductId(id);
-        Optional<Catalog> catalog = catalogService.getCatalogById(catalogId);
-        if (catalog.isPresent()) {
-            product.setCatalog(catalog.get());
-            productService.updateProduct(product);
-            return "redirect:/products";
+    public String updateProduct(@PathVariable long id,
+                                @ModelAttribute Product product,
+                                @RequestParam("catalogId") Long catalogId,
+                                @RequestParam("image") MultipartFile imageFile) throws IOException {
+        // Получаем текущий продукт из базы данных
+        Product existingProduct = productService.getProductById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        // Обработка загрузки изображения
+        if (!imageFile.isEmpty()) {
+            byte[] bytes = imageFile.getBytes();
+            Path path = Paths.get("src/main/resources/static/images/products/" + imageFile.getOriginalFilename());
+            Files.write(path, bytes);
+            product.setImagePath("/images/products/" + imageFile.getOriginalFilename());
         } else {
-            return "redirect:/products/" + id + "/edit?error=Catalog+not+found";
+            // Сохраняем старый путь к изображению, если новое изображение не загружается
+            product.setImagePath(existingProduct.getImagePath());
         }
+
+        // Установка каталога для продукта
+        Catalog catalog = catalogService.getCatalogById(catalogId)
+                .orElseThrow(() -> new RuntimeException("Catalog not found"));
+        product.setCatalog(catalog);
+
+        // Установка идентификатора продукта (чтобы избежать создания нового продукта)
+        product.setProductId(id);
+
+        // Обновление продукта
+        productService.updateProduct(product);
+        return "redirect:/products";
     }
+
 
     @PostMapping("/{id}/delete")
     public String deleteProduct(@PathVariable long id) {
