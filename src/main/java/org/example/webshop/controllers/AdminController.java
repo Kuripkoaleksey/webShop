@@ -1,79 +1,66 @@
 package org.example.webshop.controllers;
 
-import org.example.webshop.model.entities.Admin;
-import org.example.webshop.services.AdminService;
+import org.example.webshop.model.entities.User;
+import org.example.webshop.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admins")
 public class AdminController {
 
-    private final AdminService adminService;
+    private final UserService userService;
 
     @Autowired
-    public AdminController(AdminService adminService) {
-        this.adminService = adminService;
+    public AdminController(UserService userService) {
+        this.userService = userService;
     }
 
-    // Отображение формы для создания нового администратора
-    @GetMapping("/new")
-    public String showCreateAdminForm(Model model) {
-        model.addAttribute("admin", new Admin());
-        return "admins/create";
+    @GetMapping("/redactorsList")
+    public String listRedactors(Model model) {
+        model.addAttribute("redactors", userService.getAllRedactors());
+        return "admins/redactorsList";
     }
 
-    // Обработка формы создания нового администратора
-    @PostMapping("/add")
-    public String createAdmin(@ModelAttribute Admin admin) {
-        adminService.saveAdmin(admin);
-        return "redirect:/admin/admins";
-    }
-
-    // Отображение списка администраторов
-    @GetMapping("/admins")
-    public String listAdmins(Model model) {
-        List<Admin> admins = adminService.getAllAdmins();
-        model.addAttribute("admins", admins);
-        return "admins/list";
-    }
-
-    // Отображение формы для редактирования администратора
-    @GetMapping("/{id}/edit")
-    public String showEditAdminForm(@PathVariable int id, Model model) {
-        Admin admin = adminService.getAdminById(id);
-        model.addAttribute("admin", admin);
-        return "admins/edit";
-    }
-
-    // Обработка формы редактирования администратора
-    @PostMapping("/{id}/edit")
-    public String updateAdmin(@PathVariable int id, @ModelAttribute Admin admin) {
-        if (admin.getPassword() == null || admin.getPassword().isEmpty()) {
-            // Логика для случая отсутствия пароля, можно выбросить исключение или установить значение по умолчанию
-            throw new IllegalArgumentException("Password cannot be null or empty");
+    @GetMapping("/editRedactor/{userId}")
+    public String showEditForm(@PathVariable("userId") Long userId, Model model) {
+        User user = userService.getUserById(userId);
+        if (user == null) {
+            model.addAttribute("error", "Пользователь не найден");
+            return "error";
         }
-        admin.setId(id);
-        adminService.updateAdmin(admin);
-        return "redirect:/admin/admins";
+        model.addAttribute("user", user);
+        return "admins/editRedactor";
     }
 
-    @GetMapping("/{id}/confirm-delete")
-    public String confirmDeleteAdmin(@PathVariable int id, Model model) {
-        Admin admin = adminService.getAdminById(id);
-        model.addAttribute("admin", admin);
-        return "admins/confirm-delete";
+    @PostMapping("/editRedactor")
+    public String editRedactor(@ModelAttribute User user, Model model) {
+        System.out.println("User ID: " + user.getUserId()); // Логируем userId для отладки
+        try {
+            if (user.getUserId() == null) {
+                throw new IllegalArgumentException("User ID не должен быть пустым");
+            }
+            userService.updateUser(user);
+            return "redirect:/admins/redactorsList";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("user", user);  // Возвращаем пользователя, чтобы данные не потерялись
+            model.addAttribute("error", "Не удалось обновить данные пользователя");
+            return "admins/editRedactor";
+        }
     }
 
-    // Удаление администратора
-    @DeleteMapping("/{id}/delete")
-    public String deleteAdmin(@PathVariable int id) {
-        adminService.deleteAdmin(id);
-        return "redirect:/admin/admins";
-    }
 
+    @PostMapping("/deleteRedactor/{userId}")
+    public String deleteRedactor(@PathVariable("userId") Long userId) {
+        try {
+            userService.deleteUser(userId);
+            return "redirect:/admins/redactorsList";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/error";
+        }
+    }
 }

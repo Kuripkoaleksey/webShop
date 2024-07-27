@@ -1,13 +1,91 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Product Details</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список товаров - КвазаР</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f3c24c;
+            margin: 0;
+            padding: 60px 0;
+            box-sizing: border-box;
+        }
+        header {
+            background-color: #343a40;
+            color: #f3c24c;
+            padding: 20px 0;
+        }
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .container {
+            margin-top: 100px;
+            padding-bottom: 60px; /* Space for footer */
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+        a {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: #f3c24c;
+            background-color: #800830;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        a:hover {
+            background-color: #3a051b;
+        }
+        .create-product {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 15px 25px;
+            font-size: 18px;
+            color: #f3c24c;
+            background-color: #800830;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .create-product:hover {
+            background-color: #3a051b;
+        }
+    </style>
 </head>
 <body>
-<h1>Product Details</h1>
-<p>Name: <span th:text="${product.name}"></span></p>
-<p>Price: <span th:text="${product.price}"></span></p>
-<p>Description: <span th:text="${product.description}"></span></p>
-<a th:href="@{/images/products}">Back to Products</a>
+<header>
+    <h1>КвазаР</h1>
+</header>
+<div class="container">
+    <h1>Список товаров</h1>
+    <ul>
+        <li th:each="product : ${products}">
+            <a th:href="@{/products/{id}(id=${product.productId})}" th:text="${product.name}">Название товара</a>
+        </li>
+    </ul>
+    <a th:href="@{/products/new}" class="create-product">Создать новый товар</a>
+</div>
+<footer>
+    <p>&copy; 2024 QuasaR. All rights reserved.</p>
+</footer>
 </body>
 </html>

@@ -28,6 +28,16 @@ public class CatalogService {
         return catalogRepository.save(catalog);
     }
 
+
+    public void updateCatalog(Long id, Catalog catalog) {
+        Optional<Catalog> existingCatalog = getCatalogById(id);
+        if (existingCatalog.isPresent()) {
+            Catalog catalogToUpdate = existingCatalog.get();
+            catalogToUpdate.setName(catalog.getName());
+            catalogRepository.save(catalogToUpdate);
+        }
+    }
+
     public void deleteCatalog(Long id) {
         catalogRepository.deleteById(id);
     }

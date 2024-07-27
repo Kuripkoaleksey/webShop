@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталоги продуктов - Интернет магазин "КвазаР"</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f3c24c;
+            margin: 0;
+            padding: 60px 0;
+            box-sizing: border-box;
+        }
+        header {
+            background-color: #343a40;
+            color: #f3c24c;
+            padding: 20px 0;
+        }
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .container {
+            margin-top: 100px;
+            padding-bottom: 60px; /* Space for footer */
+        }
+        h1 {
+            font-size: 48px;
+            margin-bottom: 50px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 20px 0;
+        }
+        .catalog-link {
+            font-size: 24px;
+            color: #343a40;
+            text-decoration: none;
+        }
+        .catalog-link:hover {
+            text-decoration: underline;
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        .button {
+            display: inline-block;
+            padding: 15px 25px;
+            font-size: 18px;
+            color: #f3c24c;
+            background-color: #800830;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #3a051b;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>КвазаР</h1>
+</header>
+<div class="container">
+    <h1>Каталоги</h1>
+    <ul>
+        <li th:each="catalog : ${catalogs}">
+            <a th:href="@{/catalogs/{id}(id=${catalog.catalogId})}" th:text="${catalog.name}" class="catalog-link">Catalog Name</a>
+        </li>
+    </ul>
+    <!-- Кнопка выхода -->
+    <div class="button-container">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="button">Выйти</button>
+        </form>
+    </div>
+</div>
+<footer>
+    <p>&copy; 2024 QuasaR. All rights reserved.</p>
+</footer>
+</body>
+</html>

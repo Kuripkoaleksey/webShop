@@ -1,38 +1,63 @@
 package org.example.webshop.model.entities;
 
 import java.util.regex.Pattern;
-
 import jakarta.persistence.*;
 
+//@Entity
+//@Table(name = "Addresses")
+//public class Address {
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
+//
+//    @Column(name = "Country", nullable = false, length = 50)
+//    private String country;
+//
+//    @Column(name = "City", nullable = false, length = 50)
+//    private String city;
+//
+//    @Column(name = "Street", nullable = false, length = 100)
+//    private String street;
+//
+//    @Column(name = "Postal_code", nullable = false, length = 10)
+//    private String postalCode;
+//
+//    @Column(name = "Building_number", nullable = false, length = 10)
+//    private String buildingNumber;
 @Entity
-@Table(name = "Addresses") // Указываем имя таблицы, с которой связывается класс
+@Table(name = "Addresses")
 public class Address {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Указываем автоинкрементируемый первичный ключ
-    private Long id; // Поле для идентификатора в таблице
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "address_id")
+    private Long address_id;
 
-    @Column(name = "country", nullable = false, length = 50) // Указываем имя столбца и ограничения
+    @Column(name = "Country")
     private String country;
 
-    @Column(name = "city", nullable = false, length = 50) // Указываем имя столбца и ограничения
+    @Column(name = "City")
     private String city;
 
-    @Column(name = "street", nullable = false, length = 100) // Указываем имя столбца и ограничения
+    @Column(name = "Street")
     private String street;
 
-    @Column(name = "postal_code", nullable = false, length = 10) // Указываем имя столбца и ограничения
+    @Column(name = "Postal_code")
     private String postalCode;
 
-    @Column(name = "building_number", nullable = false, length = 10) // Указываем имя столбца и ограничения
+    @Column(name = "Building_number")
     private String buildingNumber;
 
+    // Геттеры и сеттеры
+
+
     // Регулярные выражения для валидации
-    private static final String POSTAL_CODE_REGEX = "^[0-9]{5,6}$"; // Пример для почтового индекса (5 или 6 цифр)
-    private static final String BUILDING_NUMBER_REGEX = "^\\d+[A-Za-z]?\\d*$"; // Пример для номера здания (цифры с опциональными буквами)
-    private static final String CITY_REGEX = "^[A-Za-zА-Яа-яЁё\\s-]{2,50}$"; // Пример для города (буквы, пробелы и дефисы)
-    private static final String COUNTRY_REGEX = "^[A-Za-zА-Яа-яЁё\\s-]{2,50}$"; // Пример для страны (буквы, пробелы и дефисы)
-    private static final String STREET_REGEX = "^[A-Za-zА-Яа-яЁё\\s-]{2,100}$"; // Пример для улицы (буквы, пробелы и дефисы)
+    private static final String POSTAL_CODE_REGEX = "^[0-9]{5,6}$";
+    private static final String BUILDING_NUMBER_REGEX = "^\\d+[A-Za-z]?\\d*$";
+    private static final String CITY_REGEX = "^[A-Za-zА-Яа-яЁё\\s-]{2,50}$";
+    private static final String COUNTRY_REGEX = "^[A-Za-zА-Яа-яЁё\\s-]{2,50}$";
+    private static final String STREET_REGEX = "^[A-Za-zА-Яа-яЁё\\s-]{2,100}$";
+
 
     // Конструкторы
     public Address() {}
@@ -46,12 +71,12 @@ public class Address {
     }
 
     // Геттеры и сеттеры с валидацией
-    public Long getId() {
-        return id;
+    public Long getAddress_id() {
+        return address_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setAddress_id(Long address_id) {
+        this.address_id = address_id;
     }
 
     public String getCountry() {
@@ -107,13 +132,11 @@ public class Address {
     }
 
     public void setBuildingNumber(String buildingNumber) {
-        if (isValid(buildingNumber, BUILDING_NUMBER_REGEX)) {
-            this.buildingNumber = buildingNumber;
-        } else {
+        if (buildingNumber == null || buildingNumber.isEmpty() || !buildingNumber.matches("[a-zA-Z0-9\\s]+")) {
             throw new IllegalArgumentException("Invalid building number format.");
         }
+        this.buildingNumber = buildingNumber;
     }
-
     // Метод для проверки соответствия строки регулярному выражению
     private boolean isValid(String value, String regex) {
         return Pattern.matches(regex, value);

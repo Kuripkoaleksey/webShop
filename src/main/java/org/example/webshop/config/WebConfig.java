@@ -13,13 +13,4 @@ public class WebConfig {
         return new HiddenHttpMethodFilter();
     }
 
-//    @Bean(name = "multipartResolver")
-//    public CommonsMultipartResolver multipartResolver() {
-//        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
-//        resolver.setMaxUploadSize(5242880); // 5MB
-//        return resolver;
-//    }
-
-
-
 }

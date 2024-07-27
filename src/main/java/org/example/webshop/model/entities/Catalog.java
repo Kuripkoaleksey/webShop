@@ -10,16 +10,22 @@ public class Catalog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long catalogId;
 
-    @Column(name = "Name", nullable = false, unique = true, length = 100)
+    @Column(name = "Name", nullable = false)
     private String name;
+
+    @Column(name = "Description")
+    private String description;
 
     @OneToMany(mappedBy = "catalog", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Product> products;
 
+    // Конструкторы, геттеры и сеттеры
+
     public Catalog() {}
 
-    public Catalog(String name) {
+    public Catalog(String name, String description) {
         this.name = name;
+        this.description = description;
     }
 
     public Long getCatalogId() {
@@ -38,19 +44,19 @@ public class Catalog {
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public List<Product> getProducts() {
         return products;
     }
 
     public void setProducts(List<Product> products) {
         this.products = products;
-    }
-
-    @Override
-    public String toString() {
-        return "Catalog{" +
-                "catalogId=" + catalogId +
-                ", name='" + name + '\'' +
-                '}';
     }
 }

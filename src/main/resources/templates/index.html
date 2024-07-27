@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интернет магазин "КвазаР"</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f3c24c;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        header {
+            background-color: #343a40;
+            color: #f3c24c;
+            padding: 20px 0;
+        }
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .container {
+            margin-top: 100px;
+            padding-bottom: 60px; /* Space for footer */
+        }
+        h1 {
+            font-size: 48px;
+            margin-bottom: 50px;
+        }
+        .button {
+            display: inline-block;
+            margin: 10px;
+            padding: 15px 25px;
+            font-size: 18px;
+            color: #f3c24c;
+            background-color: #800830;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #3a051b;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>КвазаР</h1>
+</header>
+<div class="container">
+    <h1>Вселенная товаров для Вас</h1>
+    <a href="/register/new" class="button">Зарегистрироваться как покупатель</a>
+    <a href="/loginAdmin/formAdmin" class="button">Вход администратора</a>
+    <a href="/login/form" class="button">Вход для покупателя</a>
+    <a href="/loginRedactor/formRedactor" class="button">Вход для редактора</a>
+</div>
+<footer>
+    <p>&copy; 2024 QuasaR. All rights reserved.</p>
+</footer>
+</body>
+</html>

@@ -1,51 +1,46 @@
 package org.example.webshop.model.entities;
 
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
-
 @Entity
-@Table(name = "order_items")//Элементы заказа - используется для создания связи между двумя основными сущностями: заказом (Order) и товаром (Product).
+@Table(name = "OrderItems")  // Имя таблицы в базе данных
 public class OrderItem {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderItemId;
+    @Column(name = "id")
+    private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
+    @JoinColumn(name = "Order_id", nullable = false)
     private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "Product_id", nullable = false)
     private Product product;
 
-    @Column(name = "quantity", nullable = false)
+    @Column(name = "Quantity", nullable = false)
     private int quantity;
 
-    @Column(name = "unit_price", nullable = false)
-    private BigDecimal unitPrice;
+    @Column(name = "Price", nullable = false)
+    private BigDecimal price;
+    // Конструкторы, геттеры и сеттеры
 
-    @ManyToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
-
-    // Constructors, getters, and setters
     public OrderItem() {}
 
-    public OrderItem(Order order, Product product, int quantity, BigDecimal unitPrice) {
+    public OrderItem(Order order, Product product, int quantity, BigDecimal price) {
         this.order = order;
         this.product = product;
         this.quantity = quantity;
-        this.unitPrice = unitPrice;
+        this.price = price;
     }
 
-    public Long getOrderItemId() {
-        return orderItemId;
+    // Геттеры и сеттеры
+    public Long getId() {
+        return id;
     }
 
-    public void setOrderItemId(Long orderItemId) {
-        this.orderItemId = orderItemId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Order getOrder() {
@@ -71,18 +66,12 @@ public class OrderItem {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-    public Cart getCart() {
-        return cart;
+
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
-    public BigDecimal getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(BigDecimal unitPrice) {
-        this.unitPrice = unitPrice;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

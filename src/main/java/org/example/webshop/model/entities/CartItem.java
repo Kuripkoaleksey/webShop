@@ -10,14 +10,14 @@ public class CartItem {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "cart_id")
+    @JoinColumn(name = "Cart_id", nullable = false)
     private Cart cart;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "Product_id", nullable = false)
     private Product product;
 
-    @Column(name = "quantity")
+    @Column(name = "Quantity", nullable = false)
     private int quantity;
 
     // Конструкторы, геттеры и сеттеры

@@ -1,33 +1,129 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Products</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список товаров - КвазаР</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f3c24c;
+            margin: 0;
+            padding: 60px 0;
+            box-sizing: border-box;
+        }
+        header {
+            background-color: #343a40;
+            color: #f3c24c;
+            padding: 20px 0;
+        }
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .container {
+            margin-top: 100px;
+            padding-bottom: 60px; /* Space for footer */
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 10px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #343a40;
+            color: #f3c24c;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        a {
+            color: #f3c24c;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        button {
+            background-color: #800830;
+            color: #f3c24c;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #3a051b;
+        }
+        .add-product {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 15px 25px;
+            font-size: 18px;
+            color: #f3c24c;
+            background-color: #800830;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .add-product:hover {
+            background-color: #3a051b;
+        }
+    </style>
 </head>
 <body>
-<h1>Products</h1>
-<table>
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="product : ${products}">
-        <td th:text="${product.name}"></td>
-        <td th:text="${product.price}"></td>
-        <td>
-            <a th:href="@{/images/products/{id}(id=${product.productId})}">View</a>
-            <a th:href="@{/images/products/{id}/edit(id=${product.productId})}">Edit</a>
-            <form th:action="@{/images/products/{id}/delete(id=${product.productId})}" method="post">
-                <button type="submit">Delete</button>
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
-<a th:href="@{/images/products/new}">Add New Product</a>
+<header>
+    <h1>КвазаР</h1>
+</header>
+<div class="container">
+    <h1>Список товаров</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.price}"></td>
+            <td>
+                <a th:href="@{/products/{id}(id=${product.productId})}">Посмотреть</a>
+                <a th:href="@{/products/{id}/edit(id=${product.productId})}">Изменить</a>
+                <form th:action="@{/products/{id}/delete(id=${product.productId})}" method="post" style="display: inline;">
+                    <button type="submit">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/products/new}" class="add-product">Добавить новый товар</a>
+</div>
+<footer>
+    <p>&copy; 2024 QuasaR. All rights reserved.</p>
+</footer>
 </body>
 </html>
->

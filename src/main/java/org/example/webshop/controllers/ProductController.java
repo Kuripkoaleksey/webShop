@@ -1,6 +1,8 @@
 package org.example.webshop.controllers;
 
+import org.example.webshop.model.entities.Catalog;
 import org.example.webshop.model.entities.Product;
+import org.example.webshop.services.CatalogService;
 import org.example.webshop.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,12 +14,17 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/products")
 public class ProductController {
 
     private final ProductService productService;
+    @Autowired
+    private CatalogService catalogService;
+
 
     @Autowired
     public ProductController(ProductService productService) {
@@ -31,45 +38,80 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public String viewProduct(@PathVariable long id, Model model) {
-        Product product = productService.getProductById(id);
-        model.addAttribute("product", product);
-        return "products/view";
+    public String viewProductDetails(@PathVariable long id, Model model) {
+        Optional<Product> product = productService.getProductById(id);
+        if (product.isPresent()) {
+            model.addAttribute("product", product.get());
+            return "products/details";
+        } else {
+            model.addAttribute("error", "Товар не найден");
+            return "redirect:/products";
+        }
     }
 
+//    @GetMapping("/{id}")
+//    public String viewProduct(@PathVariable long id, Model model) {
+//        Optional<Product> product = productService.getProductById(id);
+//        model.addAttribute("product", product);
+//        return "products/view";
+//    }
+
+    // Показать форму для создания нового продукта
     @GetMapping("/new")
     public String showCreateProductForm(Model model) {
         model.addAttribute("product", new Product());
+        List<Catalog> catalogs = catalogService.getAllCatalogs();
+        model.addAttribute("catalogs", catalogs);
         return "products/create";
     }
 
+    // Создание нового продукта
     @PostMapping("/new")
     public String createProduct(@ModelAttribute Product product,
-                                @RequestParam("image") MultipartFile imageFile) throws IOException {
-        // Handle image upload
+                                @RequestParam("image") MultipartFile imageFile,
+                                @RequestParam("catalogId") Long catalogId) throws IOException {
+        // Обработка загрузки изображения
         if (!imageFile.isEmpty()) {
             byte[] bytes = imageFile.getBytes();
-            Path path = Paths.get("src/main/resources/static/images/" + imageFile.getOriginalFilename());
+            Path path = Paths.get("src/main/resources/static/images/products/" + imageFile.getOriginalFilename());
             Files.write(path, bytes);
             product.setImagePath("/images/" + imageFile.getOriginalFilename());
         }
+
+        // Установка каталога для продукта
+        Catalog catalog = catalogService.getCatalogById(catalogId)
+                .orElseThrow(() -> new RuntimeException("Catalog not found"));
+        product.setCatalog(catalog);
 
         productService.saveProduct(product);
         return "redirect:/products";
     }
 
+
     @GetMapping("/{id}/edit")
     public String showEditProductForm(@PathVariable long id, Model model) {
-        Product product = productService.getProductById(id);
-        model.addAttribute("product", product);
-        return "products/edit";
+        Optional<Product> product = productService.getProductById(id);
+        if (product.isPresent()) {
+            model.addAttribute("product", product.get());
+            model.addAttribute("catalogs", catalogService.getAllCatalogs());
+            return "products/edit";
+        } else {
+            model.addAttribute("error", "Product not found");
+            return "redirect:/products";
+        }
     }
 
     @PostMapping("/{id}/edit")
-    public String updateProduct(@PathVariable long id, @ModelAttribute Product product) {
+    public String updateProduct(@PathVariable long id, @ModelAttribute Product product, @RequestParam("catalogId") Long catalogId) {
         product.setProductId(id);
-        productService.updateProduct(product);
-        return "redirect:/products";
+        Optional<Catalog> catalog = catalogService.getCatalogById(catalogId);
+        if (catalog.isPresent()) {
+            product.setCatalog(catalog.get());
+            productService.updateProduct(product);
+            return "redirect:/products";
+        } else {
+            return "redirect:/products/" + id + "/edit?error=Catalog+not+found";
+        }
     }
 
     @PostMapping("/{id}/delete")
@@ -77,4 +119,8 @@ public class ProductController {
         productService.deleteProduct(id);
         return "redirect:/products";
     }
+
+
+
+
 }

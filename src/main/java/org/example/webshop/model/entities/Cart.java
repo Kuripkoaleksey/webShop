@@ -7,18 +7,32 @@ import java.util.List;
 @Entity
 @Table(name = "Carts")
 public class Cart {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+//
+//    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<CartItem> items = new ArrayList<>();
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @OneToOne
+//    @JoinColumn(name = "User_id", nullable = false)
+//    private User user;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "User_id", referencedColumnName = "User_id")
+    private User user;
+
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CartItem> items = new ArrayList<>();
+    // Constructors, getters, and setters
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    public Cart() {}
 
-    // Конструкторы, геттеры и сеттеры
+    public Cart(User user) {
+        this.user = user;
+        user.setCart(this); // Establishing the bidirectional relationship
+    }
 
     public Long getId() {
         return id;
@@ -54,11 +68,14 @@ public class Cart {
         items.clear();
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public User getUser() {
+        return user;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setUser(User user) {
+        this.user = user;
+        if (user.getCart() != this) {
+            user.setCart(this); // Establishing the bidirectional relationship
+        }
     }
 }

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Изменение товара - КвазаР</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f3c24c;
+            margin: 0;
+            padding: 60px 0;
+            box-sizing: border-box;
+        }
+        header {
+            background-color: #343a40;
+            color: #f3c24c;
+            padding: 20px 0;
+        }
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .container {
+            margin-top: 100px;
+            padding-bottom: 60px; /* Space for footer */
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        div {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #f3c24c;
+            box-sizing: border-box;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 15px 25px;
+            font-size: 18px;
+            color: #f3c24c;
+            background-color: #800830;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #3a051b;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: #f3c24c;
+            background-color: #800830;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        a:hover {
+            background-color: #3a051b;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>КвазаР</h1>
+</header>
+<div class="container">
+    <h1>Изменение товара</h1>
+    <form th:action="@{/products/{id}/edit(id=${product.productId})}" th:object="${product}" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="name">Название:</label>
+            <input type="text" id="name" name="name" th:field="*{name}" required/>
+        </div>
+        <div>
+            <label for="price">Цена:</label>
+            <input type="number" id="price" name="price" th:field="*{price}" step="0.01" required/>
+        </div>
+        <div>
+            <label for="description">Описание:</label>
+            <textarea id="description" name="description" th:field="*{description}" required></textarea>
+        </div>
+        <div>
+            <label for="image">Изображение:</label>
+            <input type="file" id="image" name="image"/>
+        </div>
+        <div>
+            <label for="stock">Количество на складе:</label>
+            <input type="number" id="stock" name="stock" th:field="*{stock}" required/>
+        </div>
+        <div>
+            <label for="catalogId">Каталог:</label>
+            <select id="catalogId" name="catalogId" required>
+                <option th:each="catalog : ${catalogs}" th:value="${catalog.catalogId}" th:text="${catalog.name}" th:selected="${catalog.catalogId == product.catalog.catalogId}"></option>
+            </select>
+        </div>
+        <div>
+            <button type="submit">Применить изменения</button>
+        </div>
+    </form>
+    <a th:href="@{/products}">Назад к перечню товаров</a>
+</div>
+<footer>
+    <p>&copy; 2024 QuasaR. All rights reserved.</p>
+</footer>
+</body>
+</html>

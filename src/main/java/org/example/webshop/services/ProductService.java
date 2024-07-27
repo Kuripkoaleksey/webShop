@@ -1,11 +1,14 @@
 package org.example.webshop.services;
 
+import org.example.webshop.model.entities.Catalog;
 import org.example.webshop.model.entities.Product;
+import org.example.webshop.model.entities.User;
 import org.example.webshop.model.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -21,8 +24,8 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Product getProductById(Long id) {
-        return productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+    public Optional<Product> getProductById(Long id) {
+        return Optional.ofNullable(productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found")));
     }
 
     public void saveProduct(Product product) {
@@ -35,5 +38,28 @@ public class ProductService {
 
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
+    }
+
+    /////////////////////////////////////////////////////
+
+
+    public Product findById(Long id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+    }
+
+    public List<Product> searchProducts(String name) {
+        return productRepository.findByNameContainingIgnoreCase(name);
+    }
+
+    public List<Product> sortProductsByName() {
+        return productRepository.findAllByOrderByNameAsc();
+    }
+
+    public List<Product> sortProductsByPrice() {
+        return productRepository.findAllByOrderByPriceAsc();
+    }
+    public List<Product> getProductsByCatalog(Catalog catalog) {
+        return productRepository.findByCatalog(catalog);
     }
 }

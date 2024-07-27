@@ -1,42 +1,127 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Create Product</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интернет магазин "КвазаР"</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f3c24c;
+            margin: 0;
+            padding: 60px 0;
+            box-sizing: border-box;
+        }
+        header {
+            background-color: #343a40;
+            color: #f3c24c;
+            padding: 20px 0;
+        }
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .container {
+            margin-top: 100px;
+            padding-bottom: 60px; /* Space for footer */
+            text-align: left;
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h1 {
+            font-size: 48px;
+            margin-bottom: 50px;
+        }
+        form div {
+            margin-bottom: 20px;
+        }
+        label {
+            font-size: 18px;
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #f3c24c;
+            box-sizing: border-box;
+        }
+        button {
+            display: inline-block;
+            margin: 10px 0;
+            padding: 15px 25px;
+            font-size: 18px;
+            color: #f3c24c;
+            background-color: #800830;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #3a051b;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #800830;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #3a051b;
+        }
+    </style>
 </head>
 <body>
-<h1>Create Product</h1>
-<form th:action="@{/images/products/new}" th:object="${product}" method="post" enctype="multipart/form-data">
-    <div>
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" th:field="*{name}" required/>
-    </div>
-    <div>
-        <label for="price">Price:</label>
-        <input type="number" id="price" name="price" th:field="*{price}" step="0.01" required/>
-    </div>
-    <div>
-        <label for="description">Description:</label>
-        <textarea id="description" name="description" th:field="*{description}" required></textarea>
-    </div>
-    <div>
-        <label for="image">Image:</label>
-        <input type="file" id="image" name="image" required/>
-    </div>
-    <div>
-        <label for="stock">Stock Quantity:</label>
-        <input type="number" id="stock" name="stock" th:field="*{stock}" required/>
-    </div>
-    <div>
-        <label for="catalogId">Catalog:</label>
-        <select id="catalogId" name="catalogId" required>
-            <option th:each="catalog : ${catalogs}" th:value="${catalog.id}" th:text="${catalog.name}"></option>
-        </select>
-    </div>
-    <div>
-        <button type="submit">Create</button>
-    </div>
-</form>
-<a th:href="@{/images/products}">Back to Products</a>
+<header>
+    <h1>КвазаР</h1>
+</header>
+<div class="container">
+    <h1>Созать товар в каталоге</h1>
+    <form th:action="@{/products/new}" th:object="${product}" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="name">Назавние:</label>
+            <input type="text" id="name" name="name" th:field="*{name}" required/>
+        </div>
+        <div>
+            <label for="price">Цена:</label>
+            <input type="number" id="price" name="price" th:field="*{price}" step="0.01" required/>
+        </div>
+        <div>
+            <label for="description">Описание:</label>
+            <textarea id="description" name="description" th:field="*{description}" required></textarea>
+        </div>
+        <div>
+            <label for="image">Изображение:</label>
+            <input type="file" id="image" name="image" required/>
+        </div>
+        <div>
+            <label for="stock">Количество на складе:</label>
+            <input type="number" id="stock" name="stock" th:field="*{stock}" required/>
+        </div>
+        <div>
+            <label for="catalogId">Каталог в который будет добавлен товар:</label>
+            <select id="catalogId" name="catalogId" required>
+                <option th:each="catalog : ${catalogs}" th:value="${catalog.catalogId}" th:text="${catalog.name}"></option>
+            </select>
+        </div>
+        <div>
+            <button type="submit">Создать</button>
+        </div>
+    </form>
+    <a th:href="@{/products}">Назад к перечню товаров</a>
+</div>
+<footer>
+    <p>&copy; 2024 QuasaR. All rights reserved.</p>
+</footer>
 </body>
 </html>

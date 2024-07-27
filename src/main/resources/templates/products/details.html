@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Описание товара - КвазаР</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f3c24c;
+            margin: 0;
+            padding: 60px 0;
+            box-sizing: border-box;
+        }
+        header {
+            background-color: #343a40;
+            color: #f3c24c;
+            padding: 20px 0;
+        }
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .container {
+            margin-top: 100px;
+            padding-bottom: 60px; /* Space for footer */
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+        }
+        h1 {
+            font-size: 48px;
+            margin-bottom: 30px;
+        }
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: #f3c24c;
+            background-color: #800830;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        a:hover {
+            background-color: #3a051b;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>КвазаР</h1>
+</header>
+<div class="container">
+    <h1>Описание товара</h1>
+    <p>Name: <span th:text="${product.name}"></span></p>
+    <p>Price: <span th:text="${product.price}"></span></p>
+    <p>Description: <span th:text="${product.description}"></span></p>
+    <p>Catalog: <span th:text="${product.catalog.name}"></span></p>
+    <img th:src="@{${product.imagePath}}" alt="Product Image" />
+    <a th:href="@{/products}">Назад к перечню товаров</a>
+</div>
+<footer>
+    <p>&copy; 2024 QuasaR. All rights reserved.</p>
+</footer>
+</body>
+</html>

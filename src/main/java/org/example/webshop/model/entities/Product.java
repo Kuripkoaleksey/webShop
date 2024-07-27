@@ -5,44 +5,48 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-@Table(name="Products")
+@Table(name = "Products")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
 
-    @Column(name="Name", nullable = true, unique = true, length = 100)
+    @ManyToOne
+    @JoinColumn(name = "Catalog_id", nullable = false)
+    private Catalog catalog;
+
+    @Column(name = "Name", nullable = false)
     private String name;
 
-    @Column(name="Price", nullable = false)
-    private BigDecimal price;
-
-    @Column(name="Description", nullable = false, length = 500)
+    @Column(name = "Description")
     private String description;
 
-    @Column(name="ImagePath")
-    private String imagePath;
+    @Column(name = "Price", nullable = false)
+    private BigDecimal price;
 
-    @Column(name="Stock")
+    @Column(name = "Stock", nullable = false)
     private int stock;
 
-    @ManyToOne
-    @JoinColumn(name = "catalog_id")
-    private Catalog catalog;
+    @Column(name = "Image_path")
+    private String imagePath;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderItem> orderItems;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CartItem> cartItems;
 
+    // Constructors, getters, and setters
 
     public Product() {}
 
-    public Product(String name, BigDecimal price, String description, String imagePath, int stock) {
+    public Product(Catalog catalog, String name, String description, BigDecimal price, int stock, String imagePath) {
+        this.catalog = catalog;
         this.name = name;
-        this.price = price;
         this.description = description;
-        this.imagePath = imagePath;
+        this.price = price;
         this.stock = stock;
+        this.imagePath = imagePath;
     }
 
     public Long getProductId() {
@@ -53,20 +57,20 @@ public class Product {
         this.productId = productId;
     }
 
+    public Catalog getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(Catalog catalog) {
+        this.catalog = catalog;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
     }
 
     public String getDescription() {
@@ -77,12 +81,12 @@ public class Product {
         this.description = description;
     }
 
-    public String getImagePath() {
-        return imagePath;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public int getStock() {
@@ -93,13 +97,12 @@ public class Product {
         this.stock = stock;
     }
 
-
-    public Catalog getCatalog() {
-        return catalog;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setCatalog(Catalog catalog) {
-        this.catalog = catalog;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public List<OrderItem> getOrderItems() {
@@ -109,15 +112,12 @@ public class Product {
     public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
     }
-    @Override
-    public String toString() {
-        return "Product{" +
-                "productId=" + productId +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", description='" + description + '\'' +
-                ", imagePath='" + imagePath + '\'' +
-                ", stock=" + stock +
-                '}';
+
+    public List<CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
     }
 }

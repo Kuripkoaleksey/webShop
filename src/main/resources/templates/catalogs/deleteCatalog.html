@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Удаление каталога</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f3c24c;
+            margin: 0;
+            padding: 60px 0;
+            box-sizing: border-box;
+        }
+        header {
+            background-color: #343a40;
+            color: #f3c24c;
+            padding: 20px 0;
+        }
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .container {
+            margin-top: 100px;
+            padding-bottom: 60px; /* Space for footer */
+        }
+        h1 {
+            font-size: 48px;
+            margin-bottom: 50px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .button {
+            display: inline-block;
+            margin: 10px;
+            padding: 15px 25px;
+            font-size: 18px;
+            color: #f3c24c;
+            background-color: #800830;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #3a051b;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>КвазаР</h1>
+</header>
+<div class="container">
+    <h1>Вы уверены, что хотите удалить этот каталог?</h1>
+    <form action="/catalogs/delete/{{catalogId}}" method="post">
+        <input type="hidden" name="_method" value="delete">
+        <button type="submit" class="button">Удалить</button>
+    </form>
+</div>
+<footer>
+    <p>&copy; 2024 QuasaR. All rights reserved.</p>
+</footer>
+</body>
+</html>

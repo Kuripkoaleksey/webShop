@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация редактора сайта</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f3c24c;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        header {
+            background-color: #343a40;
+            color: #f3c24c;
+            padding: 20px 0;
+        }
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .container {
+            margin-top: 100px;
+            padding-bottom: 60px; /* Space for footer */
+        }
+        h1, h2 {
+            font-size: 48px;
+            margin-bottom: 50px;
+        }
+        h2 {
+            font-size: 36px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 15px 25px;
+            font-size: 18px;
+            color: #f3c24c;
+            background-color: #800830;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #3a051b;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>КвазаР</h1>
+</header>
+<div class="container">
+    <h2>Регистрация редактора сайта</h2>
+    <form th:action="@{/register/redactor}" method="post" th:object="${user}">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" th:field="*{email}" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" th:field="*{password}" required>
+        </div>
+        <div class="form-group">
+            <label for="firstName">Имя</label>
+            <input type="text" id="firstName" th:field="*{firstName}" required>
+        </div>
+        <div class="form-group">
+            <label for="lastName">Фамилия</label>
+            <input type="text" id="lastName" th:field="*{lastName}" required>
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber">Телефон</label>
+            <input type="text" id="phoneNumber" th:field="*{phoneNumber}" required>
+        </div>
+        <div class="form-group">
+            <label for="address">Адрес</label>
+            <input type="text" id="address" th:field="*{address}" required>
+        </div>
+
+        <!-- Display error message if there is any -->
+        <div th:if="${error}" class="error-message" th:text="${error}"></div>
+
+        <button type="submit">Зарегистрировать</button>
+    </form>
+</div>
+<footer>
+    <p>&copy; 2024 QuasaR. All rights reserved.</p>
+</footer>
+</body>
+</html>

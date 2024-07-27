@@ -1,17 +1,105 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Catalogs</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталоги - Интернет магазин "КвазаР"</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f3c24c;
+            margin: 0;
+            padding: 60px 0;
+            box-sizing: border-box;
+        }
+        header {
+            background-color: #343a40;
+            color: #f3c24c;
+            padding: 20px 0;
+        }
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .container {
+            margin-top: 100px;
+            padding-bottom: 60px; /* Space for footer */
+        }
+        h1 {
+            font-size: 48px;
+            margin-bottom: 50px;
+        }
+        .button, .button-inline {
+            display: inline-block;
+            margin: 10px;
+            padding: 15px 25px;
+            font-size: 18px;
+            color: #f3c24c;
+            background-color: #800830;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .button:hover, .button-inline:hover {
+            background-color: #3a051b;
+        }
+        .button-inline {
+            padding: 10px 15px;
+            margin: 0 5px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 20px 0;
+        }
+        .catalog-name {
+            font-size: 24px;
+            color: #343a40;
+            text-decoration: none;
+        }
+        .catalog-name:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-<h1>Catalogs</h1>
-<ul>
-    <li th:each="catalog : ${catalogs}">
-        <a th:href="@{/catalogs/{id}(id=${catalog.catalogId})}" th:text="${catalog.name}">Catalog Name</a>
-    </li>
-</ul>
-<a th:href="@{/catalogs/new}">Create New Catalog</a>
+<header>
+    <h1>КвазаР</h1>
+</header>
+<div class="container">
+    <h1>Каталоги</h1>
+    <ul>
+        <li th:each="catalog : ${catalogs}">
+            <a th:href="@{/catalogs/{id}(id=${catalog.catalogId})}" th:text="${catalog.name}" class="catalog-name">Catalog Name</a>
+            <!-- Edit and Delete Buttons -->
+            <form th:action="@{/catalogs/edit/{id}(id=${catalog.catalogId})}" method="get" style="display:inline;">
+                <button type="submit" class="button-inline">Редактировать</button>
+            </form>
+            <form th:action="@{/catalogs/delete/{id}(id=${catalog.catalogId})}" method="post" style="display:inline;">
+                <input type="hidden" name="_method" value="delete"/>
+                <button type="submit" class="button-inline">Удалить</button>
+            </form>
+        </li>
+    </ul>
+
+    <a th:href="@{/catalogs/new}" class="button">Создать новый каталог</a>
+    <br><br>
+    <a th:href="@{/products}" class="button">Просмотреть товары</a>
+    <!-- Logout Button -->
+    <form th:action="@{/logout}" method="post" style="display:inline;">
+        <button type="submit" class="button">Выйти</button>
+    </form>
+</div>
+<footer>
+    <p>&copy; 2024 QuasaR. All rights reserved.</p>
+</footer>
 </body>
 </html>
-

@@ -1,35 +1,35 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Add Product</title>
-</head>
-<body>
-<h1>Add Product to Catalog</h1>
-<form th:action="@{/catalogs/{id}/addProduct(id=${catalogId})}" th:object="${product}" method="post" enctype="multipart/form-data">
-    <div>
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" th:field="*{name}" required/>
-    </div>
-    <div>
-        <label for="price">Price:</label>
-        <input type="number" id="price" name="price" th:field="*{price}" step="0.01" required/>
-    </div>
-    <div>
-        <label for="description">Description:</label>
-        <textarea id="description" name="description" th:field="*{description}" required></textarea>
-    </div>
-    <div>
-        <label for="image">Image:</label>
-        <input type="file" id="image" name="image" required/>
-    </div>
-    <div>
-        <label for="stock">Stock Quantity:</label>
-        <input type="number" id="stock" name="stock" th:field="*{stock}" required/>
-    </div>
-    <div>
-        <button type="submit">Add Product</button>
-    </div>
-</form>
-<a th:href="@{/catalogs}">Back to Catalogs</a>
-</body>
-</html>
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <title>Add Product</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Add Product to Catalog</h1>-->
+<!--<form th:action="@{/catalogs/{id}/addProduct(id=${catalogId})}" th:object="${product}" method="post" enctype="multipart/form-data">-->
+<!--    <div>-->
+<!--        <label for="name">Name:</label>-->
+<!--        <input type="text" id="name" name="name" th:field="*{name}" required/>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <label for="price">Price:</label>-->
+<!--        <input type="number" id="price" name="price" th:field="*{price}" step="0.01" required/>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <label for="description">Description:</label>-->
+<!--        <textarea id="description" name="description" th:field="*{description}" required></textarea>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <label for="image">Image:</label>-->
+<!--        <input type="file" id="image" name="image" required/>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <label for="stock">Stock Quantity:</label>-->
+<!--        <input type="number" id="stock" name="stock" th:field="*{stock}" required/>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <button type="submit">Add Product</button>-->
+<!--    </div>-->
+<!--</form>-->
+<!--<a th:href="@{/catalogs}">Back to Catalogs</a>-->
+<!--</body>-->
+<!--</html>-->
