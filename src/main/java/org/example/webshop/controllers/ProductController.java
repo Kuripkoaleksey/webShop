@@ -75,7 +75,7 @@ public class ProductController {
             byte[] bytes = imageFile.getBytes();
             Path path = Paths.get("src/main/resources/static/images/products/" + imageFile.getOriginalFilename());
             Files.write(path, bytes);
-            product.setImagePath("/images/" + imageFile.getOriginalFilename());
+            product.setImagePath("/images/products/" + imageFile.getOriginalFilename());
         }
 
         // Установка каталога для продукта
